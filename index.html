@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Les Privat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .output {
+      margin-top: 20px;
+      background-color: #e9ecef;
+      padding: 15px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Generator Laporan pembelajaran</h1>
+    <label for="nama">Nama Lengkap:</label>
+    <input type="text" id="nama" placeholder="Masukkan nama lengkap">
+    
+    <label for="topik">Topik Pembahasan:</label>
+    <textarea id="topik" placeholder="Masukkan topik pembahasan" rows="3"></textarea>
+    
+    <button onclick="proses()">Buat Laporan</button>
+    
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    // Fungsi untuk mengubah setiap huruf pertama dari setiap kata menjadi kapital
+    function capitalizeFirstLetter(text) {
+      let result = '';
+      for (let i = 0; i < text.length; i++) {
+        if (i === 0 || text[i - 1] === ' ') {
+          result += text[i].toUpperCase();
+        } else {
+          result += text[i].toLowerCase();
+        }
+      }
+      return result;
+    }
+
+    // Fungsi untuk memproses input, menampilkan pesan, dan menyalin ke clipboard
+    function proses() {
+      let nama = document.getElementById('nama').value.trim();
+      let topik = document.getElementById('topik').value.trim();
+
+      if (nama === '' || topik === '') {
+        alert('Mohon isi kedua field dengan benar.');
+        return;
+      }
+
+      let namaCapitalize = capitalizeFirstLetter(nama);
+      // Mengambil nama panggilan yaitu kata pertama dari nama lengkap
+      let namaPanggilan = namaCapitalize.split(' ')[0];
+
+      let pesan = "Peserta didik atas nama " + namaCapitalize + " telah belajar dengan perhatian yang antusias dan baik selama sesi pembelajaran kursus les privat ini. " + 
+                  namaPanggilan + " bersedia terus melakukan perbaikan secara berkelanjutan selama proses pembelajaran materi pembahasan tentang " + topik + " yang telah berlangsung.<br><br>" +
+                  "Semoga ilmu yang telah dipelajari oleh " + namaPanggilan + " bermanfaat, Amin.";
+
+      document.getElementById('output').innerHTML = pesan;
+
+      // Menghapus tag HTML untuk penyalinan ke clipboard
+      let pesanPlain = pesan.replace(/<br\s*\/?>/gi, '\n');
+      
+      // Menyalin pesan ke clipboard
+      navigator.clipboard.writeText(pesanPlain)
+        .then(() => {
+          console.log("Pesan berhasil disalin ke clipboard.");
+        })
+        .catch(err => {
+          console.error("Gagal menyalin teks: ", err);
+        });
+    }
+  </script>
+</body>
+</html>
