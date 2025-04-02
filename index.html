@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aplikasi Les Privat</title>
+  <title>Generator Laporan Pembelajaran</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -61,7 +61,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Aplikasi Les Privat</h1>
+    <h1>Generator Laporan Pembelajaran</h1>
     <label for="nama">Nama Lengkap:</label>
     <input type="text" id="nama" placeholder="Masukkan nama lengkap" autofocus>
     
@@ -92,9 +92,10 @@
       return result;
     }
 
-    // Fungsi untuk memproses input, menampilkan pesan, dan menyalin ke clipboard
+    // Fungsi untuk memproses input, menampilkan pesan, menyalin ke clipboard, dan memulai timer reset
     function proses() {
-      clearTimeout(resetTimer); // Reset timer jika proses dijalankan
+      // Hapus timer reset jika sebelumnya sudah berjalan
+      clearTimeout(resetTimer);
 
       let nama = document.getElementById('nama').value.trim();
       let topik = document.getElementById('topik').value.trim();
@@ -126,7 +127,7 @@
           console.error("Gagal menyalin teks: ", err);
         });
 
-      // Mulai ulang timer reset selama 1 menit
+      // Mulai timer reset otomatis selama 1 menit sejak klik tombol "Proses"
       startResetTimer();
     }
 
@@ -137,7 +138,6 @@
       document.getElementById('output').innerHTML = '';
       document.getElementById('nama').focus();
       clearTimeout(resetTimer);
-      startResetTimer();
       console.log("Input telah direset.");
     }
 
@@ -145,13 +145,13 @@
     function startResetTimer() {
       resetTimer = setTimeout(() => {
         resetInput();
+        //alert("Input telah direset secara otomatis karena tidak ada interaksi selama 1 menit.");
       }, 10000);
     }
 
     // Auto focus pada input nama ketika halaman dimuat
     window.onload = function() {
       document.getElementById('nama').focus();
-      startResetTimer();
     };
   </script>
 </body>
