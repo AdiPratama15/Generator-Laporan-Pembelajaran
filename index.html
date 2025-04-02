@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aplikasi Les Privat</title>
+  <title>Generator Laporan Pembelajaran</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -57,14 +57,14 @@
 </head>
 <body>
   <div class="container">
-    <h1>Generator Laporan pembelajaran</h1>
+    <h1>Generator Laporan Pembelajaran</h1>
     <label for="nama">Nama Lengkap:</label>
-    <input type="text" id="nama" placeholder="Masukkan nama lengkap">
+    <input type="text" id="nama" placeholder="Masukkan nama lengkap" autofocus>
     
     <label for="topik">Topik Pembahasan:</label>
     <textarea id="topik" placeholder="Masukkan topik pembahasan" rows="3"></textarea>
     
-    <button onclick="proses()">Buat Laporan</button>
+    <button onclick="proses()">Proses</button>
     
     <div class="output" id="output"></div>
   </div>
@@ -115,6 +115,11 @@
           console.error("Gagal menyalin teks: ", err);
         });
     }
+
+    // Auto focus pada input nama ketika halaman dimuat (fallback jika atribut autofocus tidak berfungsi)
+    window.onload = function() {
+      document.getElementById('nama').focus();
+    };
   </script>
 </body>
 </html>
