@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generator Laporan Pembelajaran</title>
+  <title>Aplikasi Les Privat</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -34,9 +34,13 @@
       border: 1px solid #ccc;
       border-radius: 4px;
     }
-    button {
+    .button-group {
       margin-top: 15px;
-      width: 100%;
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      flex: 1;
       padding: 10px;
       background-color: #007BFF;
       color: white;
@@ -57,19 +61,24 @@
 </head>
 <body>
   <div class="container">
-    <h1>Generator Laporan Pembelajaran</h1>
+    <h1>Aplikasi Les Privat</h1>
     <label for="nama">Nama Lengkap:</label>
     <input type="text" id="nama" placeholder="Masukkan nama lengkap" autofocus>
     
     <label for="topik">Topik Pembahasan:</label>
     <textarea id="topik" placeholder="Masukkan topik pembahasan" rows="3"></textarea>
     
-    <button onclick="proses()">Proses</button>
+    <div class="button-group">
+      <button onclick="proses()">Proses</button>
+      <button onclick="resetInput()">Reset</button>
+    </div>
     
     <div class="output" id="output"></div>
   </div>
 
   <script>
+    let resetTimer;
+
     // Fungsi untuk mengubah setiap huruf pertama dari setiap kata menjadi kapital
     function capitalizeFirstLetter(text) {
       let result = '';
@@ -85,6 +94,8 @@
 
     // Fungsi untuk memproses input, menampilkan pesan, dan menyalin ke clipboard
     function proses() {
+      clearTimeout(resetTimer); // Reset timer jika proses dijalankan
+
       let nama = document.getElementById('nama').value.trim();
       let topik = document.getElementById('topik').value.trim();
 
@@ -114,11 +125,34 @@
         .catch(err => {
           console.error("Gagal menyalin teks: ", err);
         });
+
+      // Mulai ulang timer reset selama 1 menit
+      startResetTimer();
     }
 
-    // Auto focus pada input nama ketika halaman dimuat (fallback jika atribut autofocus tidak berfungsi)
+    // Fungsi untuk mereset input dan output
+    function resetInput() {
+      document.getElementById('nama').value = '';
+      document.getElementById('topik').value = '';
+      document.getElementById('output').innerHTML = '';
+      document.getElementById('nama').focus();
+      clearTimeout(resetTimer);
+      startResetTimer();
+      console.log("Input telah direset.");
+    }
+
+    // Fungsi untuk memulai timer reset otomatis selama 1 menit (60000 ms)
+    function startResetTimer() {
+      resetTimer = setTimeout(() => {
+        resetInput();
+        alert("Input telah direset secara otomatis karena tidak ada interaksi selama 1 menit.");
+      }, 60000);
+    }
+
+    // Auto focus pada input nama ketika halaman dimuat
     window.onload = function() {
       document.getElementById('nama').focus();
+      startResetTimer();
     };
   </script>
 </body>
